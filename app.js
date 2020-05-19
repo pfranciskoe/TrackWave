@@ -22,7 +22,6 @@ let authOptions = {
   method:'POST',
   // json: true
 };
-console.log(authOptions.headers.Authorization)
 // create route to get single book by its isbn
 app.get('/tracks/:trackId', (request, response) => {
   // make api call using fetch
@@ -37,7 +36,6 @@ app.get('/tracks/:trackId', (request, response) => {
         return response.text();
       }).then((body) => {
         let results = JSON.parse(body)
-        console.log(results)
         response.send(results)
       });
   })
