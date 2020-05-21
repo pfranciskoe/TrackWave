@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     canvas = document.getElementById('track-canvas');
     ctx = canvas.getContext('2d')
 
-    let trackId = '7HNwrtEdU98eLfeB7ei3mt';
+    let trackId = '2cmRpmO04TLaKPzmAzySYZ';
     axios.get(`/tracks/${trackId}`)
     .then((response) => {
         
@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 ctx.fillStyle = '#0373fc'
             }
             ctx.beginPath()
-            ctx.arc(10*(segment.start + (segment.duration / 2)), 500 + segment.loudness_max, 10*(segment.duration/2), 0, 2 * Math.PI, false)
+            ctx.arc(10*(segment.start + (segment.duration / 2)), 500 + segment.loudness_start, 10*(segment.duration/2), 0, 2 * Math.PI, false)
             ctx.fill()
         })
 
