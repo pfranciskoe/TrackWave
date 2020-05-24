@@ -60,17 +60,77 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 8);
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
+const axios = __webpack_require__(9);
+
+document.addEventListener('DOMContentLoaded', () => {
+    //Search Section
+        let searchForm = document.getElementById('search-form')
+        let albumList = document.getElementById('album-list')
+        searchForm.addEventListener('submit',(input)=>{
+        event.preventDefault()
+            let query = input.target[0].value
+            axios.get(`/search?string=${query}`)
+                .then((response) => {console.log(response)
+                    let albums = response.data.albums.items;
+                    albumList.innerHTML = ''
+                    albums.forEach(album=>{
+                        // let albumFrag = new DocumentFragment()
+                        let ul = document.createElement('ul')
+                        ul.innerHTML = album.name
+                        albumList.appendChild(ul)
+                    })
+                })
+                
+                .catch(function (error) {
+                    console.log(error);
+                });
+
+            input.target[0].value = ''
+        })
+    //Canvas Section
+    canvas = document.getElementById('track-canvas');
+    ctx = canvas.getContext('2d')
+    let trackId = '6z2O61TBA5HOsVyBesIwWs';
+    axios.get(`/tracks/${trackId}`)
+    .then((response) => {
+        
+        const spotifyTrack = response;
+
+        spotifyTrack.data.segments.forEach((segment,sIdx) => {
+            segment.pitches.forEach((pitch,pIdx)=>{ 
+                ctx.rect((sIdx*10),(pIdx*50),(10 * pitch),50)
+                ctx.fillStyle = 'blue'
+                ctx.fill()
+            })
+            
+        })
+       
+    })
+    .catch(function (error) {
+        console.log(error);
+    });
+    
+
+  
+     
+})
+
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
 "use strict";
 
 
-var bind = __webpack_require__(2);
+var bind = __webpack_require__(3);
 var isBuffer = __webpack_require__(11);
 
 /*global toString:true*/
@@ -374,13 +434,13 @@ module.exports = {
 
 
 /***/ }),
-/* 1 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {
 
-var utils = __webpack_require__(0);
+var utils = __webpack_require__(1);
 var normalizeHeaderName = __webpack_require__(13);
 
 var DEFAULT_CONTENT_TYPE = {
@@ -397,10 +457,10 @@ function getDefaultAdapter() {
   var adapter;
   if (typeof XMLHttpRequest !== 'undefined') {
     // For browsers use XHR adapter
-    adapter = __webpack_require__(4);
+    adapter = __webpack_require__(5);
   } else if (typeof process !== 'undefined') {
     // For node use HTTP adapter
-    adapter = __webpack_require__(4);
+    adapter = __webpack_require__(5);
   }
   return adapter;
 }
@@ -475,10 +535,10 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 
 module.exports = defaults;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -496,7 +556,7 @@ module.exports = function bind(fn, thisArg) {
 
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -686,18 +746,18 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {
 
-var utils = __webpack_require__(0);
+var utils = __webpack_require__(1);
 var settle = __webpack_require__(14);
 var buildURL = __webpack_require__(16);
 var parseHeaders = __webpack_require__(17);
 var isURLSameOrigin = __webpack_require__(18);
-var createError = __webpack_require__(5);
+var createError = __webpack_require__(6);
 var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(19);
 
 module.exports = function xhrAdapter(config) {
@@ -871,10 +931,10 @@ module.exports = function xhrAdapter(config) {
   });
 };
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -899,7 +959,7 @@ module.exports = function createError(message, config, code, request, response) 
 
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -911,7 +971,7 @@ module.exports = function isCancel(value) {
 
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -937,49 +997,6 @@ module.exports = Cancel;
 
 
 /***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-const axios = __webpack_require__(9);
-
-document.addEventListener('DOMContentLoaded', () => {
-
-    canvas = document.getElementById('track-canvas');
-    ctx = canvas.getContext('2d')
-
-    let trackId = '5f0LVeG7bQD0p20iSqA9F0';
-    axios.get(`/tracks/${trackId}`)
-    .then((response) => {
-        
-        const spotifyTrack = response;
-        console.log(spotifyTrack);
-        spotifyTrack.data.segments.forEach((segment,idx) => {
-            
-            if ((idx % 2) === 0) { ctx.fillStyle = '#a2cdf5'} else {
-                ctx.fillStyle = '#0373fc'
-            }
-            segment.pitches.forEach((pitchPoint,idx) =>{
-                if (idx === 0 ){
-                ctx.beginPath()
-                ctx.arc(2*(segment.start + (segment.duration / 2)), 500 * pitchPoint, 2*(segment.duration/2), 0, 2 * Math.PI, false)
-                ctx.fill()
-                }
-            })
-
-        })
-
-    })
-    .catch(function (error) {
-        console.log(error);
-    });
-    
-
-  
-     
-})
-
-
-/***/ }),
 /* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -992,10 +1009,10 @@ module.exports = __webpack_require__(10);
 "use strict";
 
 
-var utils = __webpack_require__(0);
-var bind = __webpack_require__(2);
+var utils = __webpack_require__(1);
+var bind = __webpack_require__(3);
 var Axios = __webpack_require__(12);
-var defaults = __webpack_require__(1);
+var defaults = __webpack_require__(2);
 
 /**
  * Create an instance of Axios
@@ -1028,9 +1045,9 @@ axios.create = function create(instanceConfig) {
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(7);
+axios.Cancel = __webpack_require__(8);
 axios.CancelToken = __webpack_require__(26);
-axios.isCancel = __webpack_require__(6);
+axios.isCancel = __webpack_require__(7);
 
 // Expose all/spread
 axios.all = function all(promises) {
@@ -1078,8 +1095,8 @@ function isSlowBuffer (obj) {
 "use strict";
 
 
-var defaults = __webpack_require__(1);
-var utils = __webpack_require__(0);
+var defaults = __webpack_require__(2);
+var utils = __webpack_require__(1);
 var InterceptorManager = __webpack_require__(21);
 var dispatchRequest = __webpack_require__(22);
 
@@ -1164,7 +1181,7 @@ module.exports = Axios;
 "use strict";
 
 
-var utils = __webpack_require__(0);
+var utils = __webpack_require__(1);
 
 module.exports = function normalizeHeaderName(headers, normalizedName) {
   utils.forEach(headers, function processHeader(value, name) {
@@ -1183,7 +1200,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 "use strict";
 
 
-var createError = __webpack_require__(5);
+var createError = __webpack_require__(6);
 
 /**
  * Resolve or reject a Promise based on response status.
@@ -1244,7 +1261,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
 "use strict";
 
 
-var utils = __webpack_require__(0);
+var utils = __webpack_require__(1);
 
 function encode(val) {
   return encodeURIComponent(val).
@@ -1317,7 +1334,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 "use strict";
 
 
-var utils = __webpack_require__(0);
+var utils = __webpack_require__(1);
 
 // Headers whose duplicates are ignored by node
 // c.f. https://nodejs.org/api/http.html#http_message_headers
@@ -1377,7 +1394,7 @@ module.exports = function parseHeaders(headers) {
 "use strict";
 
 
-var utils = __webpack_require__(0);
+var utils = __webpack_require__(1);
 
 module.exports = (
   utils.isStandardBrowserEnv() ?
@@ -1495,7 +1512,7 @@ module.exports = btoa;
 "use strict";
 
 
-var utils = __webpack_require__(0);
+var utils = __webpack_require__(1);
 
 module.exports = (
   utils.isStandardBrowserEnv() ?
@@ -1555,7 +1572,7 @@ module.exports = (
 "use strict";
 
 
-var utils = __webpack_require__(0);
+var utils = __webpack_require__(1);
 
 function InterceptorManager() {
   this.handlers = [];
@@ -1614,10 +1631,10 @@ module.exports = InterceptorManager;
 "use strict";
 
 
-var utils = __webpack_require__(0);
+var utils = __webpack_require__(1);
 var transformData = __webpack_require__(23);
-var isCancel = __webpack_require__(6);
-var defaults = __webpack_require__(1);
+var isCancel = __webpack_require__(7);
+var defaults = __webpack_require__(2);
 var isAbsoluteURL = __webpack_require__(24);
 var combineURLs = __webpack_require__(25);
 
@@ -1707,7 +1724,7 @@ module.exports = function dispatchRequest(config) {
 "use strict";
 
 
-var utils = __webpack_require__(0);
+var utils = __webpack_require__(1);
 
 /**
  * Transform the data for a request or a response
@@ -1776,7 +1793,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 "use strict";
 
 
-var Cancel = __webpack_require__(7);
+var Cancel = __webpack_require__(8);
 
 /**
  * A `CancelToken` is an object that can be used to request cancellation of an operation.

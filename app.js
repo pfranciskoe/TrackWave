@@ -20,7 +20,6 @@ let authOptions = {
   },
   body: 'grant_type=client_credentials',
   method:'POST',
-  // json: true
 };
 // create route to get single book by its isbn
 app.get('/tracks/:trackId', (request, response) => {
@@ -42,14 +41,20 @@ app.get('/tracks/:trackId', (request, response) => {
 });
 
 app.get('/search', (request, response) => {
-  fetch(`http://openlibrary.org/search.json?q=${request.query.string}`)
+  console.log(request.query.string)
+  fetch('https://accounts.spotify.com/api/token', authOptions)
+    .then(res => res.json())
+    .then((body) => {
+      let spotifyAccessToken = body['access_token'];
+      fetch(`https://api.spotify.com/v1/search?q=name:${request.query.string.split(' ').join('%20')}&type=artist,album`,
+    { headers: { Authorization: `Bearer ${spotifyAccessToken}` } })
     .then((response) => {
       return response.text();
     }).then((body) => {
       let results = JSON.parse(body)
-      console.log(results)
       response.send(results)
     });
+  })
 });
 
 
