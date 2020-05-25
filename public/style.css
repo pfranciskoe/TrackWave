@@ -27,7 +27,13 @@ body{
 .header:hover{
     cursor: default;
 }
-
+.header p a{
+    text-decoration: none;
+}
+.header p a:hover{
+    text-transform: capitalize;
+    text-shadow: 10px 10px 5px white;
+}
 
 .header-title{
     font-size: 60px;
