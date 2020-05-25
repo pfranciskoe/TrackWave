@@ -21,7 +21,7 @@ let authOptions = {
   body: 'grant_type=client_credentials',
   method:'POST',
 };
-// create route to get single book by its isbn
+// create route to get single track
 app.get('/tracks/:trackId', (request, response) => {
   // make api call using fetch
   fetch('https://accounts.spotify.com/api/token',authOptions)
@@ -40,13 +40,31 @@ app.get('/tracks/:trackId', (request, response) => {
     
 });
 
+app.get('/albums/:albumId', (request, response) => {
+  // make api call using fetch
+  fetch('https://accounts.spotify.com/api/token', authOptions)
+    .then(res => res.json())
+    .then((body) => {
+      let spotifyAccessToken = body['access_token'];
+      fetch(`https://api.spotify.com/v1/albums/${request.params.albumId}/tracks`,
+        { headers: { Authorization: `Bearer ${spotifyAccessToken}` } })
+        .then((response) => {
+          return response.text();
+        }).then((body) => {
+          let results = JSON.parse(body)
+          response.send(results)
+        });
+    })
+
+});
+
 app.get('/search', (request, response) => {
   console.log(request.query.string)
   fetch('https://accounts.spotify.com/api/token', authOptions)
     .then(res => res.json())
     .then((body) => {
       let spotifyAccessToken = body['access_token'];
-      fetch(`https://api.spotify.com/v1/search?q=name:${request.query.string.split(' ').join('%20')}&type=artist,album`,
+      fetch(`https://api.spotify.com/v1/search?q=${request.query.string.split(' ').join('%20')}&type=album`,
     { headers: { Authorization: `Bearer ${spotifyAccessToken}` } })
     .then((response) => {
       return response.text();

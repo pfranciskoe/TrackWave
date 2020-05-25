@@ -7,7 +7,12 @@ li{
 }
 body{
     background-color: #141417;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
+
 .header{
     display: flex;
     flex-direction: column;
@@ -15,19 +20,19 @@ body{
     border: 1px solid #529cf7;
     border-left: 1px solid #f75268;
     border-right: 1px solid #f75268;
-    margin: 20px;
+    width: 80%;
+    margin-bottom: 20px;
 }
 .header-title{
-    padding-left: 5%;
     font-size: 60px;
 }
 
 .search-bar{
-    margin-left: 5%;
-    margin-bottom: 2%;
+    margin-bottom: 20px;
+    width: 80%;
     display: flex;
     flex-direction: row;
-    
+    justify-content: center;
 }
 .search-bar button{
     color: white;
@@ -38,6 +43,12 @@ body{
     border-top: none;
     border-bottom: none;
 }
+.search-bar button:hover{
+    color: #529cf7;
+    border: 1px solid #f75268;
+    border-left: 1px solid #529cf7;
+    border-right: 1px solid #529cf7;
+}
 #search-input{
     box-sizing: border-box;
     background-color: transparent;
@@ -45,16 +56,21 @@ body{
     border: none;
     border-bottom: 1px solid white;
     height: 50px;
-    width: 45%;
-    font-size: 45px;
+    width: 100%;
+    font-size: 30px;
+    text-align: center;
+    
 }
-
-#album-list ul{
+#album-list {
+    width: 80%;
+}
+#album-list ul {
     text-transform: lowercase;
     display: flex;
     flex-direction: row;
-    justify-content:start;
-    align-items: center;
+    justify-content:left;
+    align-items: flex-start;
+    padding-left: 0px;
 }
 #album-list ul img{
     height: 50px;
@@ -64,4 +80,9 @@ body{
 #track-canvas{
     margin-left: 5%;
     border: 1px solid white;
+}
+
+#album-canvi{
+    display: flex;
+    flex-direction: column;
 }
