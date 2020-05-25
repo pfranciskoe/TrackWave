@@ -78,7 +78,6 @@ document.addEventListener('DOMContentLoaded', () => {
         let trackId = track.id;
         axios.get(`/tracks/${trackId}`)
         .then((response) => {
-            console.log(response)
             const spotifyTrack = response;
             const segments = spotifyTrack.data.segments;
             //LINE
