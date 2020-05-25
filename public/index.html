@@ -3,16 +3,24 @@
   <head>
     <meta charset="utf-8">
     <title>TrackWave</title>
+    <link href="https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap" rel="stylesheet">
+    <link href="style.css" rel="stylesheet" type="text/css"></link>
     <script type="text/javascript" src="./bundle.js"></script>
+    <link href="style.css" rel="stylesheet" type="text/css"></link>
   </head>
   <body>
-    <main id='main'></main>
-    <form name="search-bar" id="search-form">
+    <div class='header'>
+    <h1 class='header-title'>~ TRACK ~ WAVES ~</h1>
+    </div>
+    <form class='search-bar' name="search-bar" id="search-form">
     <input type="text" name="search-bar" id="search-input">
-    <button type="submit">Search</button>
+    <button type="submit">search</button>
     </form>
     <li id='album-list'>
     </li>
-    <canvas id='track-canvas' height="600" width="1000"></canvas>
+    <div class='album canvas'>
+      
+    </div>
+    <canvas id='track-canvas' height="200" width="1000"></canvas>
   </body>
 </html>
