@@ -1,21 +1,43 @@
-# Simple Node API Backend
 
-Simple Node Backend for avoiding CORS issues in development
-- npm install
-- npm run build
-- npm start
+<h1 align="center" > ~ TrackWave ~ </h1>
+<h3 align="center"> Search for any album and see it. </h3>
+<h5 align="center">
+<a href='https://trackwave.herokuapp.com/'>Live Site</a> | <a href=https://github.com/pfranciskoe/TrackWave>Github</a>
+</h5>
 
-Technologies
-- express
-- axios
-- webpack
+## User Journey
 
-Implementation
+* Users are greated by a clean minimal homepage.
+* Search for any album on spotify.
+* Explore what the music looks like.
+* ...then listen to it and see how your perception changed.
 
-This project allows you to serve your HTML and JS from a custom backend that performs API requests to an external API.
+## Core Features
 
-app.js contains the routes that you need to get your data. Customize them according to the paths you wish to use in your code, and the API you wish to access
+### `Search`
+* Search the complete spotify library by artist, song, or album.
+* View the top twenty results, ordered by relevance.
 
-Write your JS in the javascripts folder; your entry file is index.js.
+### `Track Visualizer`
+* Fetch data from Spotify API.
+* See analyzed track data for each song on the album.
+* Compare tracks to eachother.
 
-In the entry file 
+### `User Interface`
+* Snappy
+* Simple
+* Clean
+
+
+## Tech / Framework:
+* Javascript
+* Node.JS
+* CSS
+* Webpack
+* Spotify Web API
+
+### Upcoming Features:
+
+* Dynamic Soundwave Visualization
+* ThreeJS-powered full-album Visualization
+* Spotify SDK player implementation
