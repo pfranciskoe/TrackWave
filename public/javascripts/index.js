@@ -88,14 +88,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 ctx.lineTo(segment.start * 5, Math.abs(segment.loudness_start*2))
 
             })
-            ctx.strokeStyle = '#4db8ff';
+            ctx.strokeStyle = '#529cf7';
             ctx.stroke();
 
             //CIRCLES
             segments.slice(1).forEach((segment) => {
                 ctx.beginPath()
-                ctx.arc(segment.start * 5, Math.abs(segment.loudness_start * 2), 1, 0, Math.PI * 2)
-                ctx.fillStyle ='#ff859f'
+                ctx.arc(segment.start * 5, Math.abs(segment.loudness_start * 2), 1.5, 0, Math.PI * 2)
+                ctx.fillStyle ='#f75268'
                 ctx.fill();
             })
             

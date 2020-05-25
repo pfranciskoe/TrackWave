@@ -97,6 +97,10 @@ body{
     display: flex;
     flex-direction: column;
 }
+#album-canvi div{
+    display: flex;
+    flex-direction: column;
+}
 #album-canvi a{
     text-decoration: none;
 }
