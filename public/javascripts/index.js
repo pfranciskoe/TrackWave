@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
         event.preventDefault()
             let query = input.target[0].value
             axios.get(`/search?string=${query}`)
-                .then((response) => {console.log(response)
+                .then((response) => {
                     let albums = response.data.albums.items;
                     clearList(albumList)
                     clearList(canvasList)
