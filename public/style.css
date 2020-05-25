@@ -22,9 +22,16 @@ body{
     border-right: 1px solid #f75268;
     width: 80%;
     margin-bottom: 20px;
+     
 }
+.header:hover{
+    cursor: default;
+}
+
+
 .header-title{
     font-size: 60px;
+    text-shadow: 10px 10px 10px rgba(255, 255, 255, 0.351);
 }
 
 .search-bar{
@@ -59,7 +66,7 @@ body{
     width: 100%;
     font-size: 30px;
     text-align: center;
-    
+    text-shadow: 10px 0px 5px white;
 }
 #album-list {
     width: 80%;
@@ -71,6 +78,10 @@ body{
     justify-content:left;
     align-items: flex-start;
     padding-left: 0px;
+}
+#album-list ul:hover {
+    text-transform: uppercase;
+    cursor: pointer;
 }
 #album-list ul img{
     height: 50px;
@@ -86,6 +97,13 @@ body{
     display: flex;
     flex-direction: column;
 }
-#album-canvi:hover{
+#album-canvi a{
+    text-decoration: none;
+}
+#album-canvi a:hover{
+    text-shadow: 10px 10px 10px white;
+}
+
+#album-canvi canvas:hover{
     cursor: crosshair;
 }

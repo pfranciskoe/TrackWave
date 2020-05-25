@@ -60,17 +60,136 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 7);
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
+const axios = __webpack_require__(8);
+
+document.addEventListener('DOMContentLoaded', () => {
+    //Search Section
+        let searchForm = document.getElementById('search-form')
+        let albumList = document.getElementById('album-list')
+        let canvasList = document.getElementById('album-canvi')
+        function clearList(list){
+            list.innerHTML = ''
+        }
+      
+        searchForm.addEventListener('submit',(input)=>{
+        event.preventDefault()
+            let query = input.target[0].value
+            axios.get(`/search?string=${query}`)
+                .then((response) => {console.log(response)
+                    let albums = response.data.albums.items;
+                    clearList(albumList)
+                    clearList(canvasList)
+                    albums.forEach(album=>{
+                        let ul = document.createElement('ul')
+                        let span = document.createElement('span')
+                        let albumCover = document.createElement('img')
+                        span.innerHTML = `${album.name} ~ ${album.artists[0].name}`
+                        albumCover.src = album.images[0].url
+                        ul.appendChild(albumCover)
+                        ul.appendChild(span)
+                        ul.addEventListener('click',()=>{
+                            fetchAndMakeVis(album);
+                            clearList(albumList);
+                        })
+                        albumList.appendChild(ul)
+                    })
+                })
+                
+                .catch(function (error) {
+                    console.log(error);
+                });
+
+            input.target[0].value = ''
+        })
+    
+    function fetchAndMakeVis(album) {
+        clearList(canvasList)
+        axios.get(`/albums/${album.id}`)
+        .then((response) => {
+            let tracks = response.data.items;
+            tracks.forEach((track) => {
+                makeCanvas(track)
+            })
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+
+    }
+
+    function makeCanvas(track){
+        let newCanvas = document.createElement('canvas');
+        newCanvas.width = 1000;
+        newCanvas.height = 150;
+        newCanvas.id = track.id
+        let div = document.createElement('div')
+        let para = document.createElement('a')
+        // let iframe = document.createElement('iframe')
+        //     iframe.width = 1000;
+        //     iframe.height = 150;
+        //     iframe.src = track.external_urls.spotify;
+        //     iframe.setAttribute('frameBorder', 0);
+        //     iframe.setAttribute('allowtransparency', true);
+        //     iframe.setAttribute('allow' = 'encrypted-media');
+        para.innerHTML= `${track.name}`
+        para.href = track.external_urls.spotify
+        div.appendChild(para)
+        div.appendChild(newCanvas)
+        canvasList.appendChild(div);
+        let ctx = newCanvas.getContext('2d')
+        let trackId = track.id;
+        axios.get(`/tracks/${trackId}`)
+        .then((response) => {
+            console.log(response)
+            const spotifyTrack = response;
+            const segments = spotifyTrack.data.segments;
+            //LINE
+            ctx.beginPath()
+            ctx.moveTo(0, Math.abs(segments[1].loudness_start*2))
+            segments.slice(2).forEach((segment) => {
+                ctx.lineTo(segment.start * 5, Math.abs(segment.loudness_start*2))
+
+            })
+            ctx.strokeStyle = '#4db8ff';
+            ctx.stroke();
+
+            //CIRCLES
+            segments.slice(1).forEach((segment) => {
+                ctx.beginPath()
+                ctx.arc(segment.start * 5, Math.abs(segment.loudness_start * 2), 1, 0, Math.PI * 2)
+                ctx.fillStyle ='#ff859f'
+                ctx.fill();
+            })
+            
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+    }
+   
+    
+    
+
+  
+     
+})
+
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
 "use strict";
 
 
-var bind = __webpack_require__(2);
+var bind = __webpack_require__(3);
 var isBuffer = __webpack_require__(10);
 
 /*global toString:true*/
@@ -374,13 +493,13 @@ module.exports = {
 
 
 /***/ }),
-/* 1 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {
 
-var utils = __webpack_require__(0);
+var utils = __webpack_require__(1);
 var normalizeHeaderName = __webpack_require__(13);
 
 var DEFAULT_CONTENT_TYPE = {
@@ -397,10 +516,10 @@ function getDefaultAdapter() {
   var adapter;
   if (typeof XMLHttpRequest !== 'undefined') {
     // For browsers use XHR adapter
-    adapter = __webpack_require__(3);
+    adapter = __webpack_require__(4);
   } else if (typeof process !== 'undefined') {
     // For node use HTTP adapter
-    adapter = __webpack_require__(3);
+    adapter = __webpack_require__(4);
   }
   return adapter;
 }
@@ -478,7 +597,7 @@ module.exports = defaults;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -496,18 +615,18 @@ module.exports = function bind(fn, thisArg) {
 
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(0);
+var utils = __webpack_require__(1);
 var settle = __webpack_require__(14);
 var buildURL = __webpack_require__(16);
 var parseHeaders = __webpack_require__(17);
 var isURLSameOrigin = __webpack_require__(18);
-var createError = __webpack_require__(4);
+var createError = __webpack_require__(5);
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -665,7 +784,7 @@ module.exports = function xhrAdapter(config) {
 
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -690,7 +809,7 @@ module.exports = function createError(message, config, code, request, response) 
 
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -702,7 +821,7 @@ module.exports = function isCancel(value) {
 
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -728,121 +847,6 @@ module.exports = Cancel;
 
 
 /***/ }),
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-const axios = __webpack_require__(8);
-
-document.addEventListener('DOMContentLoaded', () => {
-    //Search Section
-        let searchForm = document.getElementById('search-form')
-        let albumList = document.getElementById('album-list')
-        let canvasList = document.getElementById('album-canvi')
-        function clearList(list){
-            list.innerHTML = ''
-        }
-      
-        searchForm.addEventListener('submit',(input)=>{
-        event.preventDefault()
-            let query = input.target[0].value
-            axios.get(`/search?string=${query}`)
-                .then((response) => {console.log(response)
-                    let albums = response.data.albums.items;
-                    clearList(albumList)
-                    clearList(canvasList)
-                    albums.forEach(album=>{
-                        let ul = document.createElement('ul')
-                        let span = document.createElement('span')
-                        let albumCover = document.createElement('img')
-                        span.innerHTML = `${album.name} ~ ${album.artists[0].name}`
-                        albumCover.src = album.images[0].url
-                        ul.appendChild(albumCover)
-                        ul.appendChild(span)
-                        ul.addEventListener('click',()=>{
-                            fetchAndMakeVis(album);
-                            clearList(albumList);
-                        })
-                        albumList.appendChild(ul)
-                    })
-                })
-                
-                .catch(function (error) {
-                    console.log(error);
-                });
-
-            input.target[0].value = ''
-        })
-    
-    function fetchAndMakeVis(album) {
-        clearList(canvasList)
-        axios.get(`/albums/${album.id}`)
-        .then((response) => {
-            let tracks = response.data.items;
-            tracks.forEach((track) => {
-                makeCanvas(track)
-            })
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
-
-    }
-
-    function makeCanvas(track){
-        let newCanvas = document.createElement('canvas');
-        newCanvas.width = 1000;
-        newCanvas.height = 150;
-        newCanvas.id = track.id
-        let div = document.createElement('div')
-        let para = document.createElement('p')
-        let iframe = document.createElement('iframe')
-            iframe.width = 1000;
-            iframe.height = 150;
-            iframe.src = track.external_urls.spotify
-        para.innerHTML= `${track.name}`
-        div.appendChild(iframe)
-        div.appendChild(newCanvas)
-        canvasList.appendChild(div);
-        let ctx = newCanvas.getContext('2d')
-        let trackId = track.id;
-        axios.get(`/tracks/${trackId}`)
-        .then((response) => {
-            console.log(response)
-            const spotifyTrack = response;
-            const segments = spotifyTrack.data.segments;
-            //LINE
-            ctx.beginPath()
-            ctx.moveTo(0, Math.abs(segments[1].loudness_start*2))
-            segments.slice(2).forEach((segment) => {
-                ctx.lineTo(segment.start * 5, Math.abs(segment.loudness_start*2))
-
-            })
-            ctx.strokeStyle = '#4db8ff';
-            ctx.stroke();
-
-            //CIRCLES
-            segments.slice(1).forEach((segment) => {
-                ctx.beginPath()
-                ctx.arc(segment.start * 5, Math.abs(segment.loudness_start * 2), 1, 0, Math.PI * 2)
-                ctx.fillStyle ='#ff859f'
-                ctx.fill();
-            })
-            
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
-    }
-   
-    
-    
-
-  
-     
-})
-
-
-/***/ }),
 /* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -855,10 +859,10 @@ module.exports = __webpack_require__(9);
 "use strict";
 
 
-var utils = __webpack_require__(0);
-var bind = __webpack_require__(2);
+var utils = __webpack_require__(1);
+var bind = __webpack_require__(3);
 var Axios = __webpack_require__(11);
-var defaults = __webpack_require__(1);
+var defaults = __webpack_require__(2);
 
 /**
  * Create an instance of Axios
@@ -891,9 +895,9 @@ axios.create = function create(instanceConfig) {
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(6);
+axios.Cancel = __webpack_require__(7);
 axios.CancelToken = __webpack_require__(25);
-axios.isCancel = __webpack_require__(5);
+axios.isCancel = __webpack_require__(6);
 
 // Expose all/spread
 axios.all = function all(promises) {
@@ -931,8 +935,8 @@ module.exports = function isBuffer (obj) {
 "use strict";
 
 
-var defaults = __webpack_require__(1);
-var utils = __webpack_require__(0);
+var defaults = __webpack_require__(2);
+var utils = __webpack_require__(1);
 var InterceptorManager = __webpack_require__(20);
 var dispatchRequest = __webpack_require__(21);
 
@@ -1207,7 +1211,7 @@ process.umask = function() { return 0; };
 "use strict";
 
 
-var utils = __webpack_require__(0);
+var utils = __webpack_require__(1);
 
 module.exports = function normalizeHeaderName(headers, normalizedName) {
   utils.forEach(headers, function processHeader(value, name) {
@@ -1226,7 +1230,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 "use strict";
 
 
-var createError = __webpack_require__(4);
+var createError = __webpack_require__(5);
 
 /**
  * Resolve or reject a Promise based on response status.
@@ -1287,7 +1291,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
 "use strict";
 
 
-var utils = __webpack_require__(0);
+var utils = __webpack_require__(1);
 
 function encode(val) {
   return encodeURIComponent(val).
@@ -1360,7 +1364,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 "use strict";
 
 
-var utils = __webpack_require__(0);
+var utils = __webpack_require__(1);
 
 // Headers whose duplicates are ignored by node
 // c.f. https://nodejs.org/api/http.html#http_message_headers
@@ -1420,7 +1424,7 @@ module.exports = function parseHeaders(headers) {
 "use strict";
 
 
-var utils = __webpack_require__(0);
+var utils = __webpack_require__(1);
 
 module.exports = (
   utils.isStandardBrowserEnv() ?
@@ -1495,7 +1499,7 @@ module.exports = (
 "use strict";
 
 
-var utils = __webpack_require__(0);
+var utils = __webpack_require__(1);
 
 module.exports = (
   utils.isStandardBrowserEnv() ?
@@ -1555,7 +1559,7 @@ module.exports = (
 "use strict";
 
 
-var utils = __webpack_require__(0);
+var utils = __webpack_require__(1);
 
 function InterceptorManager() {
   this.handlers = [];
@@ -1614,10 +1618,10 @@ module.exports = InterceptorManager;
 "use strict";
 
 
-var utils = __webpack_require__(0);
+var utils = __webpack_require__(1);
 var transformData = __webpack_require__(22);
-var isCancel = __webpack_require__(5);
-var defaults = __webpack_require__(1);
+var isCancel = __webpack_require__(6);
+var defaults = __webpack_require__(2);
 var isAbsoluteURL = __webpack_require__(23);
 var combineURLs = __webpack_require__(24);
 
@@ -1707,7 +1711,7 @@ module.exports = function dispatchRequest(config) {
 "use strict";
 
 
-var utils = __webpack_require__(0);
+var utils = __webpack_require__(1);
 
 /**
  * Transform the data for a request or a response
@@ -1776,7 +1780,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 "use strict";
 
 
-var Cancel = __webpack_require__(6);
+var Cancel = __webpack_require__(7);
 
 /**
  * A `CancelToken` is an object that can be used to request cancellation of an operation.
