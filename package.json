@@ -9,11 +9,10 @@
     "lib": "lib"
   },
   "engines": {
-    "node": "10.13.0",
-    "npm": "6.4.1"
+    "node": "10.13.0"
   },
   "scripts": {
-    "build": "webpack --watch",
+    "build": "webpack --watch --mode=development",
     "start": "node app.js",
     "start:debug": "DEBUG=* node app.js"
   },
