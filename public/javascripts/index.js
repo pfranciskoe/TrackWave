@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .catch(function (error) {
             console.log(error);
         });
-
+        
     }
 
     function makeCanvas(track){
@@ -62,8 +62,15 @@ document.addEventListener('DOMContentLoaded', () => {
         newCanvas.id = track.id
         let div = document.createElement('div')
         let para = document.createElement('p')
+        let iframe = document.createElement('iframe')
+            iframe.width = 1000;
+            iframe.height = 150;
+            iframe.src = track.external_urls.spotify;
+            iframe.setAttribute('frameBorder', 0);
+            iframe.setAttribute('allowtransparency', true);
+            iframe.setAttribute('allow' = 'encrypted-media');
         para.innerHTML= `${track.name}`
-        div.appendChild(para)
+        div.appendChild(iframe)
         div.appendChild(newCanvas)
         canvasList.appendChild(div);
         let ctx = newCanvas.getContext('2d')

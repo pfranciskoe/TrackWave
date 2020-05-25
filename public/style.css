@@ -86,3 +86,6 @@ body{
     display: flex;
     flex-direction: column;
 }
+#album-canvi:hover{
+    cursor: crosshair;
+}
