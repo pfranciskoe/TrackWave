@@ -52,7 +52,6 @@ document.addEventListener('DOMContentLoaded', () => {
       })
   }
     function makeCanvasCheck(tracks){
-        console.log(tracks.length)
         if (tracks.length > 0){
             makeCanvas(tracks.shift()).then(() => {
             makeCanvasCheck(tracks)
