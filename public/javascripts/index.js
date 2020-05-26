@@ -65,6 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const newCanvas = document.createElement('canvas')
     newCanvas.width = 1000
     newCanvas.height = 150
+    newCanvas.className = 'wave'
     const div = document.createElement('div')
     const para = document.createElement('a')
     // let iframe = document.createElement('iframe')
@@ -74,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
     //     iframe.setAttribute('frameBorder', 0);
     //     iframe.setAttribute('allowtransparency', true);
     //     iframe.setAttribute('allow' = 'encrypted-media');
-    para.innerHTML = `${track.name}`
+    para.innerHTML = `${track.name}` 
     para.href = track.external_urls.spotify
     div.appendChild(para)
     div.appendChild(newCanvas)
