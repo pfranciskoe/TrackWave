@@ -48,13 +48,12 @@ body{
     justify-content: center;
 }
 .search-bar button{
+    border: none;
     color: white;
     background-color: transparent;
     outline: none;
     font-size: 20px;
     height: 40px;
-    border-top: none;
-    border-bottom: none;
 }
 .search-bar button:hover{
     color: #529cf7;
@@ -67,15 +66,14 @@ body{
     background-color: transparent;
     outline: none;
     border: none;
-    border-bottom: 1px solid white;
+    border-bottom: 1px dashed white;
     height: 50px;
     width: 100%;
     font-size: 30px;
     text-align: center;
-    text-shadow: 10px 0px 5px white;
 }
 #album-list {
-    width: 80%;
+    width: calc(80% - 20px);
 }
 #album-list ul {
     text-transform: lowercase;
@@ -115,10 +113,10 @@ body{
 }
 
 #album-canvi canvas:hover{
-    cursor: crosshair;
+    cursor: default;
 }
 
-.wave:hover {
+/* .wave:hover {
   animation: bounce 1s infinite alternate;
   -webkit-animation: bounce 1s infinite alternate;
 }
@@ -137,4 +135,23 @@ body{
   to {
     transform: translateY(-15px);
   }
+} */
+#album-title{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-top: 2px dashed white;
+    border-bottom:3px dashed white ;
+    padding: 10px;
+    width: calc(80% - 20px);
+    margin-bottom: 10px;
+}
+#album-title img{
+    height: 100px;
+    width: 100px;
+}
+
+#album-title h3{
+    font-size: 25px;
 }

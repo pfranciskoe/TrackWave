@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const searchForm = document.getElementById('search-form')
   const albumList = document.getElementById('album-list')
   const canvasList = document.getElementById('album-canvi')
+  const albumTitle = document.getElementById('album-title')
   function clearList (list) {
     list.innerHTML = ''
   }
@@ -42,6 +43,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function fetchAndMakeVis (album) {
     clearList(canvasList)
+    clearList(albumTitle)
+    let newAlbumHeader = document.createElement('h3');
+    let albumArtwork = document.createElement('img');
+    newAlbumHeader.innerText = `${album.name}~${album.artists[0].name}`;
+    albumArtwork.src = album.images[0].url;
+    albumTitle.appendChild(albumArtwork);
+    albumTitle.appendChild(newAlbumHeader);
     axios.get(`/albums/${album.id}`)
       .then((response) => {
         const tracks = response.data.items
@@ -51,16 +59,15 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log(error)
       })
   }
-    function makeCanvasCheck(tracks){
-        if (tracks.length > 0){
-            makeCanvas(tracks.shift()).then(() => {
-            makeCanvasCheck(tracks)
-            })
-        } else {
-            return null
-        }
-    
+  function makeCanvasCheck(tracks){
+    if (tracks.length > 0){
+      makeCanvas(tracks.shift()).then(() => {
+        makeCanvasCheck(tracks)
+      })
+    } else {
+      return null
     }
+  }
   async function makeCanvas (track) {
     const newCanvas = document.createElement('canvas')
     newCanvas.width = 1000
@@ -68,15 +75,9 @@ document.addEventListener('DOMContentLoaded', () => {
     newCanvas.className = 'wave'
     const div = document.createElement('div')
     const para = document.createElement('a')
-    // let iframe = document.createElement('iframe')
-    //     iframe.width = 1000;
-    //     iframe.height = 150;
-    //     iframe.src = track.external_urls.spotify;
-    //     iframe.setAttribute('frameBorder', 0);
-    //     iframe.setAttribute('allowtransparency', true);
-    //     iframe.setAttribute('allow' = 'encrypted-media');
+
     para.innerHTML = `${track.name}` 
-    para.href = track.external_urls.spotify
+    para.href = `spotify:track:${track.id}`
     div.appendChild(para)
     div.appendChild(newCanvas)
     canvasList.appendChild(div)
