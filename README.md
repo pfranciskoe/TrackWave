@@ -3,7 +3,7 @@
 <h3 align="center"> Search for any album and see it. </h3>
 <h5 align="center">
 <img
-		width="400"
+		width="80%"
 		alt="Spotify API"
 		src="https://github.com/pfranciskoe/TrackWave/blob/master/public/img/Trackwave_home.png">
 </h5>
