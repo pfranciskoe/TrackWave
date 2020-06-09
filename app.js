@@ -10,8 +10,8 @@ app.use(express.static('public'))
 app.get('/', (request, res) => {
   res.sendFile(path.join(__dirname, './public/index.html'))
 })
-const client_id = keys.clientId // Your client id
-const client_secret = keys.clientSecret // Your secret
+const client_id = keys.clientId
+const client_secret = keys.clientSecret
 
 const authOptions = {
   headers: {
@@ -21,7 +21,7 @@ const authOptions = {
   body: 'grant_type=client_credentials',
   method: 'POST'
 }
-// create route to get single track
+// Route to get single track
 app.get('/tracks/:trackId', (request, response) => {
   // make api call using fetch
   fetch('https://accounts.spotify.com/api/token', authOptions)
@@ -57,17 +57,19 @@ app.get('/albums/:albumId', (request, response) => {
 })
 
 app.get('/search', (request, response) => {
-  console.log(request.query.string)
+  //Fetch accessToken from Spotify API
   fetch('https://accounts.spotify.com/api/token', authOptions)
     .then(res => res.json())
     .then((body) => {
       const spotifyAccessToken = body.access_token
+      //Use token to access spotify api search endpont, passing it the query string
       fetch(`https://api.spotify.com/v1/search?q=${request.query.string.split(' ').join('%20')}&type=album`,
         { headers: { Authorization: `Bearer ${spotifyAccessToken}` } })
         .then((response) => {
           return response.text()
         }).then((body) => {
-          const results = JSON.parse(body)
+          //Send parsed response to frontend
+          let results = JSON.parse(body)
           response.send(results)
         })
     })
