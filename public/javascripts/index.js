@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
       .then((response) => {
         const albums = response.data.albums.items
         clearList(albumList)
+        clearList(albumTitle)
         clearList(canvasList)
         albums.forEach(album => {
           const ul = document.createElement('ul')
