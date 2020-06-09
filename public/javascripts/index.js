@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   searchForm.addEventListener('submit', (input) => {
     event.preventDefault()
+    clearList(albumTitle)
     const query = input.target[0].value
     axios.get(`/search?string=${query}`)
       .then((response) => {
