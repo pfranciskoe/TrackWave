@@ -2,22 +2,31 @@
 <h1 align="center" > ~ TrackWave ~ </h1>
 <h3 align="center"> Search for any album and see it. </h3>
 <h5 align="center">
+<img
+		width="400"
+		alt="Spotify API"
+		src="https://github.com/pfranciskoe/TrackWave/blob/master/public/img/Trackwave_home.png">
+</h5>
+<h5 align="center">
 <a href='https://trackwave.herokuapp.com/'>Live Site</a> | <a href=https://github.com/pfranciskoe/TrackWave>Github</a>
 </h5>
 
 ## User Journey
 
 * Users are greated by a clean minimal homepage.
-* Search for any album on spotify.
+* Search for any album on Spotify.
 * Explore what the music looks like.
-* ...then listen to it and see how your perception changed.
 
 ## Core Features
 
 ### `Search`
 * Search the complete spotify library by artist, song, or album.
 * View the top twenty results, ordered by relevance.
-* Utilizes spotitify client credentials flow to access API without requiring users to log in to their account
+* Utilizes spotitify client credentials flow to access API without requiring users to log in an account.
+<img
+		width="400"
+		alt="Spotify API"
+		src="https://github.com/pfranciskoe/TrackWave/blob/master/public/img/AuthG_ClientCredentials.png">
 ```
 app.get('/search', (request, response) => {
   //Fetch accessToken from Spotify API
@@ -38,15 +47,15 @@ app.get('/search', (request, response) => {
     })
 })
 ```
-<img
-		width="300"
-		alt="Spotify API"
-		src="https://github.com/pfranciskoe/TrackWave/blob/master/public/AuthG_ClientCredentials.png">
+
 ### `Track Visualizer`
 * Fetch data from Spotify API.
 * See analyzed track data for each song on the album.
 * Compare tracks to eachother.
-
+<img
+		width="400"
+		alt="Spotify API"
+		src="https://github.com/pfranciskoe/TrackWave/blob/master/public/img/Trackwave_search.png">
 ### `User Interface`
 * Snappy
 * Simple
